@@ -4,13 +4,15 @@ let balance = 0;
 function addTransaction() {
     const description = document.getElementById('description').value;
     const amount = parseFloat(document.getElementById('amount').value);
+    const date = document.getElementById('date').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
 
-    if (description.trim() === '' || isNaN(amount)) {
-        alert('Por favor, preencha a descrição e o valor corretamente.');
+    if (description.trim() === '' || isNaN(amount) || date.trim() === '' || paymentMethod.trim() === '') {
+        alert('Por favor, preencha todos os campos corretamente.');
         return;
     }
 
-    transactions.push({ description, amount });
+    transactions.push({ description, amount, date, paymentMethod });
     updateTransactionList();
     updateBalance();
 }
@@ -21,7 +23,7 @@ function updateTransactionList() {
 
     for (const transaction of transactions) {
         const listItem = document.createElement('li');
-        listItem.textContent = `${transaction.description}: R$ ${transaction.amount.toFixed(2)}`;
+        listItem.textContent = `${transaction.description}: R$ ${transaction.amount.toFixed(2)} - Data: ${transaction.date} - Forma de Pagamento: ${transaction.paymentMethod}`;
         transactionList.appendChild(listItem);
     }
 }
@@ -38,15 +40,32 @@ function exportTransactions() {
         return;
     }
 
-    const data = JSON.stringify(transactions);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+    const doc = new pdfkit();
+    const filename = 'registros_financeiros.pdf';
+
+    doc.pipe(fs.createWriteStream(filename));
+
+    // Conteúdo do PDF
+    doc.fontSize(20).text('Registros Financeiros', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(12);
+
+    for (const transaction of transactions) {
+        doc.text(`Descrição: ${transaction.description}`);
+        doc.text(`Valor: R$ ${transaction.amount.toFixed(2)}`);
+        doc.text(`Data: ${transaction.date}`);
+        doc.text(`Forma de Pagamento: ${transaction.paymentMethod}`);
+        doc.moveDown();
+    }
+
+    doc.end();
+
+    const url = URL.createObjectURL(new Blob([doc], { type: 'application/pdf' }));
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'registros_financeiros.json';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-

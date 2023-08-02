@@ -12,7 +12,17 @@
     <div class="transaction-form">
         <input type="text" id="description" placeholder="Descrição">
         <input type="number" id="amount" placeholder="Valor">
-        <button onclick="addTransaction()">Adicionar Transação</button>
+        <input type="date" id="date" placeholder="Data">
+        <select id="paymentMethod">
+            <option value="" disabled selected>Selecione a forma de pagamento</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Boleto">Boleto</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Pix">Pix</option>
+            <option value="Transferencia bancaria">Transferência bancária</option>
+        </select>
+        <input type="file" id="logoInput" accept=".jpg, .jpeg, .png" onchange="handleLogoUpload(event)">
+        <button id="addTransactionButton" onclick="addTransaction()">Adicionar Transação</button>
     </div>
 
     <div class="transaction-list">
@@ -28,7 +38,6 @@
     <div class="export-button">
         <button onclick="exportTransactions()">Exportar Registros</button>
     </div>
-
 
     <script src="script.js"></script>
 </body>

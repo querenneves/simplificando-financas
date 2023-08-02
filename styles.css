@@ -65,3 +65,12 @@ h1 {
 #balanceAmount {
     color: #4CAF50;
 }
+
+#addTransactionButton {
+    background-color: #28a745;
+    font-weight: bold;
+}
+
+#addTransactionButton:hover {
+    background-color: #218838;
+}
