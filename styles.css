@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    padding: 20px;
+    margin-bottom: 0;
+    background-color: #4CAF50;
+}
+
+.transaction-form {
+    margin-top: 20px;
+}
+
+.transaction-form input, .transaction-form button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    background-color: #d9f2d0;
+}
+
+.transaction-form input::placeholder {
+    color: #777;
+}
+
+.transaction-form button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.transaction-form button:hover {
+    background-color: #45a049;
+}
+
+.transaction-list {
+    margin-top: 20px;
+}
+
+.transaction-list h2 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.transaction-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.transaction-list li {
+    margin-bottom: 10px;
+}
+
+.balance {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+#balanceAmount {
+    color: #4CAF50;
+}

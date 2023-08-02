@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Financeira Simplificada</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Gestão Financeira Simplificada</h1>
+
+    <div class="transaction-form">
+        <input type="text" id="description" placeholder="Descrição">
+        <input type="number" id="amount" placeholder="Valor">
+        <button onclick="addTransaction()">Adicionar Transação</button>
+    </div>
+
+    <div class="transaction-list">
+        <h2>Transações:</h2>
+        <ul id="transactionList"></ul>
+    </div>
+
+    <div class="balance">
+        <h2>Saldo:</h2>
+        <p id="balanceAmount">0.00</p>
+    </div>
+
+    <div class="export-button">
+        <button onclick="exportTransactions()">Exportar Registros</button>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
