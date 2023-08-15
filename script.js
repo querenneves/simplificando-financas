@@ -1,3 +1,15 @@
+import XLSX from 'xlsx';
+
+const express = require('express');
+const app = express();
+
+// Configurar os cabeçalhos CORS para permitir acesso de qualquer origem
+app.use((req, res, next) => {
+    res.header('file:///C:/Users/Pichau/Documents/simplificando-financas/script.js', 'file:///C:/Users/Pichau/Documents/simplificando-financas/script.js'); // Substitua '*' pelo domínio específico que você deseja permitir
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 let transactions = [];
 let balance = 0;
 
@@ -40,32 +52,10 @@ function exportTransactions() {
         return;
     }
 
-    const doc = new pdfkit();
-    const filename = 'registros_financeiros.pdf';
+    const worksheet = XLSX.utils.json_to_sheet(transactions);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Registros Financeiros');
 
-    doc.pipe(fs.createWriteStream(filename));
-
-    // Conteúdo do PDF
-    doc.fontSize(20).text('Registros Financeiros', { align: 'center' });
-    doc.moveDown();
-    doc.fontSize(12);
-
-    for (const transaction of transactions) {
-        doc.text(`Descrição: ${transaction.description}`);
-        doc.text(`Valor: R$ ${transaction.amount.toFixed(2)}`);
-        doc.text(`Data: ${transaction.date}`);
-        doc.text(`Forma de Pagamento: ${transaction.paymentMethod}`);
-        doc.moveDown();
-    }
-
-    doc.end();
-
-    const url = URL.createObjectURL(new Blob([doc], { type: 'application/pdf' }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const filename = 'registros_financeiros.xlsx';
+    XLSX.writeFile(workbook, filename);
 }
